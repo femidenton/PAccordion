@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Accordion</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="jsOff">
+	<dl class="accordion">
+		<dt>Section 1</dt>
+		<dd>
+			<p id="demo">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean feugiat malesuada pulvinar. Quisque blandit ut mauris vitae pellentesque. Aenean iaculis sit amet dui vitae efficitur. Praesent quis urna rutrum, congue orci at, dictum nunc. Nam non lectus efficitur, malesuada nunc quis, dictum metus. </p>
+		</dd>
+		<dt>Section 2</dt>
+		<dd>
+			<p id="demo1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean feugiat malesuada pulvinar. Quisque blandit ut mauris vitae pellentesque. Aenean iaculis sit amet dui vitae efficitur. Praesent quis urna rutrum, congue orci at, dictum nunc. Nam non lectus efficitur, malesuada nunc quis, dictum metus. </p>
+		</dd>
+		<dt>Section 3</dt>
+		<dd>
+			<p id="demo2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean feugiat malesuada pulvinar. Quisque blandit ut mauris vitae pellentesque. Aenean iaculis sit amet dui vitae efficitur. Praesent quis urna rutrum, congue orci at, dictum nunc. Nam non lectus efficitur, malesuada nunc quis, dictum metus. </p>
+		</dd>
+	</dl>
+	<script src="https://code.jquery.com/jquery-3.2.1.js"
+			  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+			  crossorigin="anonymous">
+			  	
+	</script>
+	<script>
+	$(function(){
+		$('body').removeClass('jsOff').addClass('jsOn');
+		var accordion =$('.accordion');
+		accordion.find('dd').hide();
+		accordion.find('dt').on('click', function(){
+			$(this).toggleClass('open').next('dd').slideToggle().siblings('dd:visible').slideUp().prev('dt').removeClass('open');
+		});
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+   		 if (this.readyState == 4 && this.status == 200) {
+       // Typical action to be performed when the document is ready:
+       //document.getElementById("demo").innerHTML = xhttp.responseText;
+       		var response = JSON.parse(xhttp.responseText);
+      		 console.log(response.blocks[0].content);	
+      		 document.getElementById("demo").innerHTML = response.blocks[0].content;
+      		 document.getElementById("demo1").innerHTML = response.blocks[1].content;
+      		 document.getElementById("demo2").innerHTML	= response.blocks[2].content;
+
+    	}
+	 };
+		xhttp.open("GET", "accordion-data.json", true);
+		xhttp.send();
+	});	
+	</script>
+</body>
+</html>
